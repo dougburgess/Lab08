@@ -35,24 +35,23 @@ bool Maze::solve()
 
 bool Maze::traverse(int row, int col)
 {
-    bool done = false; //assume we are not done unless proven otherwise
+    bool done = false; // Assume we are not done unless proven otherwise
 
-    //DO THIS
-    //test that the current grid location is a space (i.e. not a wall or already tried)
+    // DO THIS
+    // Test that the current grid location is a space (i.e. not a wall or already tried)
     if (                                   )
     {
-
-        //DO THIS
-        //now it has been tried so mark it as tried
-
+        // DO THIS
+        // Now it has been tried so mark it as tried
 
 
 
-        Sleep(75);  //slow down the maze traversal
+
+        Sleep(75);  // Slow down the maze traversal
         gui->update();
 
-        //DO THIS
-        //check to see if we have arrived at the bottom right corner of the maze
+        // DO THIS
+        // Check to see if we have arrived at the bottom right corner of the maze
         int height = maze->getNumRows();
         int width = maze->getNumCols();
 
@@ -62,14 +61,13 @@ bool Maze::traverse(int row, int col)
         }
         else
         {
+            // DO THIS
+            // Make recursive calls that consider all four orthogonal directions
+            // Basically, we will try all possible paths until a solution is found
 
-            //DO THIS
-            //make recursive calls that consider all four orthogonal directions
-            //basically, we will try all possible paths until a solution is found
-
-            //IMPORTANT!!
-            //don't use row++ or column++ use row + 1 or col + 1, etc.
-            //IMPORTANT: make use of the boolean that is returned every time you call traverse
+            // IMPORTANT!!
+            // Don't use row++ or column++ use row + 1 or col + 1, etc.
+            // IMPORTANT: make use of the boolean that is returned every time you call traverse
 
 
 
@@ -88,20 +86,20 @@ bool Maze::traverse(int row, int col)
 
         }
 
-        //if we are done, on the way back recursively we must mark the path that we took as the solution path
+        // If we are done, on the way back recursively we must mark the path that we took as the solution path
         if (done)
         {
-            //DO THIS
-            //mark the path taken as the solution path
+            // DO THIS
+            // Mark the path taken as the solution path
 
 
 
             gui->update();
         }
-        //backtrack
+        // Backtrack
         else
         {
-            //DO THIS
+            // DO THIS
 
 
 
@@ -114,58 +112,60 @@ bool Maze::traverse(int row, int col)
 }
 
 void Maze::mouseClicked(int x, int y)
-{}
+{
+    // stays empty
+}
 
-    void Maze::draw(Cairo::RefPtr<Cairo::Context> cr, int width, int height)
+void Maze::draw(Cairo::RefPtr<Cairo::Context> cr, int width, int height)
+{
+    int rows = maze->getNumRows();
+    int cols = maze->getNumCols();
+    int cell_width = (int) (((double) width)/cols + 0.5);
+    int cell_height = (int) (((double) height)/rows + 0.5);
+
+    Color red(1.0, 0.0, 0.0);
+    Rect redRect(&red, cell_width, cell_height);
+
+    Color green(0.0, 1.0, 0.0);
+    Rect greenRect(&green, cell_width, cell_height);
+
+    Color blue(0.0, 0.0, 1.0);
+    Rect blueRect(&blue, cell_width, cell_height);
+
+    Color white(1.0, 1.0, 1.0);
+    Rect whiteRect(&white, cell_width, cell_height);
+
+    Color black(0.0, 0.0, 0.0);
+    Rect blackRect(&black, cell_width, cell_height);
+
+    for (int i = 1; i <= rows; i++)
     {
-        int rows = maze->getNumRows();
-        int cols = maze->getNumCols();
-        int cell_width = (int) (((double) width)/cols + 0.5);
-        int cell_height = (int) (((double) height)/rows + 0.5);
-
-        Color red(1.0, 0.0, 0.0);
-        Rect redRect(&red, cell_width, cell_height);
-
-        Color green(0.0, 1.0, 0.0);
-        Rect greenRect(&green, cell_width, cell_height);
-
-        Color blue(0.0, 0.0, 1.0);
-        Rect blueRect(&blue, cell_width, cell_height);
-
-        Color white(1.0, 1.0, 1.0);
-        Rect whiteRect(&white, cell_width, cell_height);
-
-        Color black(0.0, 0.0, 0.0);
-        Rect blackRect(&black, cell_width, cell_height);
-
-        for (int i = 1; i <= rows; i++)
+        for (int j = 1; j <= cols; j++)
         {
-            for (int j = 1; j <= cols; j++)
-            {
-                int val = (int) maze->getElement(i, j);
-                int x_pixel = (j - 1) * cell_width + cell_width/2;
-                int y_pixel = (i - 1) * cell_height + cell_height/2;
+            int val = (int) maze->getElement(i, j);
+            int x_pixel = (j - 1) * cell_width + cell_width/2;
+            int y_pixel = (i - 1) * cell_height + cell_height/2;
 
-                if (val == WALL)
-                {
-                    blackRect.draw(cr, x_pixel, y_pixel);
-                }
-                else if (val == SPACE)
-                {
-                    whiteRect.draw(cr, x_pixel, y_pixel);
-                }
-                else if (val == TRIED)
-                {
-                    blueRect.draw(cr, x_pixel, y_pixel);
-                }
-                else if (val == BACKTRACK)
-                {
-                    redRect.draw(cr, x_pixel, y_pixel);
-                }
-                else if (val == PATH)
-                {
-                    greenRect.draw(cr, x_pixel, y_pixel);
-                }
+            if (val == WALL)
+            {
+                blackRect.draw(cr, x_pixel, y_pixel);
+            }
+            else if (val == SPACE)
+            {
+                whiteRect.draw(cr, x_pixel, y_pixel);
+            }
+            else if (val == TRIED)
+            {
+                blueRect.draw(cr, x_pixel, y_pixel);
+            }
+            else if (val == BACKTRACK)
+            {
+                redRect.draw(cr, x_pixel, y_pixel);
+            }
+            else if (val == PATH)
+            {
+                greenRect.draw(cr, x_pixel, y_pixel);
             }
         }
     }
+}
